@@ -11,7 +11,7 @@ const char* WIFI_PASSWORD = "";
 
 //Reemplazar por IPlocal + puerto del servidor de Django
 // "http://tu-ip:puerto/api/rfid/"
-const char* API_URL = "";
+const char* API_URL = "http://127.0.0.1:8000/api/rfid";
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
@@ -40,7 +40,7 @@ void setup() {
   delay(1000);
 
   //EJECUTAMOS LA CONECCION A WIFI 
-  conectarWifi();
+  conectarWiFi();
 
   //SETEO DE LEDS 
   pinMode(LED_VERDE, OUTPUT);
@@ -170,21 +170,30 @@ void beepDenegado() {
   }
 }
 
-void conectarWifi() {
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
 
-  Serial.println("Conectando WiFi...");
+void conectarWiFi() {
+  Serial.println("Conectando a WiFi...");
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  int intentos = 0;
+
+  while (WiFi.status() != WL_CONNECTED && intentos < 20) {
     delay(500);
     Serial.print(".");
+    intentos++;
   }
 
-  Serial.println();
-  Serial.println("WiFi conectado");
-  Serial.print("IP ESP32: ");
-  Serial.println(WiFi.localIP());
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nWiFi conectado!");
+    Serial.print("IP: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\nError al conectar WiFi");
+  }
 }
 
 String obtenerUID() {
