@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'sketch.ino'
-elf = 'path-to-your-firmware.elf'
+firmware = 'build/esp32.esp32.esp32/ESP32Project.ino.bin'
+elf = 'build/esp32.esp32.esp32/ESP32Project.ino.elf'

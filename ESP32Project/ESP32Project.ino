@@ -6,12 +6,14 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-const char* WIFI_SSID = "Wokwi-GUEST";
-const char* WIFI_PASSWORD = "";
+// Red virtual del simulador Wokwi (no requiere contraseña)
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
 
-//Reemplazar por IPlocal + puerto del servidor de Django
-// "http://tu-ip:puerto/api/rfid/"
-const char* API_URL = "http://127.0.0.1:8000/api/rfid";
+// host.wokwi.internal apunta al localhost de la PC que corre la simulación
+// (funciona con la extensión de Wokwi para VS Code). Django debe correr con
+// runserver 0.0.0.0:8000 y la URL necesita la barra final antes de "?uid=".
+const char* API_URL = "http://host.wokwi.internal:8000/api/rfid/";
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
@@ -169,9 +171,6 @@ void beepDenegado() {
     delay(100);
   }
 }
-
-const char* ssid = "Wokwi-GUEST";
-const char* password = "";
 
 void conectarWiFi() {
   Serial.println("Conectando a WiFi...");
